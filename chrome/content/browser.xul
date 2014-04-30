@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://globals/skin/" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://camungo/locale/app.dtd">
+
+<window id="browser-wnd"
+ xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+ title="&app.title;" orient="vertical"
+  persist="width height screenX screenY sizemode"
+  windowtype="__com_zotoh_camungo__"
+  style="background-color: #fff; -moz-appearance: none; "
+  onload="BrowserOnLoad();" onclose="BrowserOnClose();">
+
+  <vbox flex="1">
+    <browser id="browser-id" disablesecurity="true" flex="1" type="content-primary" 
+      src="" autoscroll="true" cid="4aea0c951778a2a5b5e1"></browser>
+  </vbox>
+
+  <script type="application/x-javascript" src="chrome://camungo/content/tpcl/crypto-sha1-hmac-pbkdf2-blockmodes-aes.js"/>
+
+<script type="application/x-javascript" src="chrome://camungo/content/tpcl/jquery.min.js" />
+<script type="application/x-javascript" src="chrome://camungo/content/tpcl/underscore-min.js" />
+<script type="application/x-javascript" src="chrome://camungo/content/tpcl/mustache.js" />
+<script type="application/x-javascript" src="chrome://camungo/content/tpcl/jquery.glob.min.js" />
+<script type="application/x-javascript" src="chrome://camungo/locale/jquery.glob.en-US.js" />
+
+
+
+<!--
+-->
+
+<script type="application/x-javascript" src="chrome://camungo/content/js/camungo-core.min.js" />
+<script type="application/x-javascript" src="chrome://camungo/content/js/login.min.js" />
+<script type="application/x-javascript" src="chrome://camungo/content/js/browser.min.js" />
+
+
+
+
+<!--
+
+  <script type="text/javascript" src="chrome://camungo/locale/app.l10n.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/ute.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/xul.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/prefs.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/widget.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/dbs.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/vendor.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/page.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/form.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/formcontainer.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/modal.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/pivotitem.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/login.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/browser.js"></script>
+
+-->
+
+<script type="application/x-javascript"><![CDATA[
+function BrowserOnLoad() {
+  AppInstance=new ComZotoh.Camungo.Browser();
+  AppInstance.start();
+}
+function BrowserOnClose() { AppInstance.finz(); }
+//]]></script>
+
+</window>
+
+

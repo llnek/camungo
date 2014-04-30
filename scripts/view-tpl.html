@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+{{#tpclcss}}
+{{{css}}}
+{{/tpclcss}}
+<link rel="stylesheet" type="text/css" href="chrome://camungo/skin/app.css" />
+{{#viewcss}}
+{{{css}}}
+{{/viewcss}}
+</head>
+
+<body theme="light" xxaccent="brown">
+
+<div class="metro-pivot">
+  {{#pivotitems}}
+    <div id="{{itemid}}" class="pivot-item"><h3></h3>
+      <div id="{{ctnid}}" class="pivot-content"></div>
+    </div>
+  {{/pivotitems}}
+</div>
+
+{{#modalpop}}
+<div id="modal-popup" class="modal hide xfade">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal" >&times;</a>
+    <h4></h4>
+  </div>
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="modal-body"></div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
+{{/modalpop}}
+
+{{#ctxmenu}}
+<div id="table-row-desc" class="modal hide xfade">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal" >&times;</a>
+        <h4>{{{title}}}</h4>
+      </div>
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="modal-body"></div>
+        </div>
+      </div>
+</div>
+{{/ctxmenu}}
+
+{{#busywait}}
+  <div id="busy-wait" class="modal hide fade" style="left: 42% !important;">
+    <img src="chrome://camungo/skin/images/black-loading.gif"/>
+  </div>
+{{/busywait}}
+
+{{#tpcljs}}
+{{{js}}}
+{{/tpcljs}}
+
+{{#corejs}}
+{{{js}}}
+{{/corejs}}
+
+{{#viewjs}}
+{{{js}}}
+{{/viewjs}}
+
+  <script type="text/javascript">
+    jQuery(function(){
+      {{#bootcode}}
+        {{code}}
+      {{/bootcode}}
+        var em=jQuery('#pivot-content-menu a')
+        if (em) {
+          em.tooltip({placement:'top'});
+        }
+    });
+  </script>
+
+
+</body>
+
+</html>
+

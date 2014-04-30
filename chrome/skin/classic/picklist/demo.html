@@ -1,0 +1,529 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>GengV's PickList - Demo</title>
+        
+        <script type="text/javascript" src="jquery.min.js"></script>
+        <script type="text/javascript" src="jquery.pickList-0.2.2.min.js"></script>
+        <script type="text/javascript">
+			$(function(){
+				$("#sample_1").pickList();
+				
+				pl2 = $("#sample_2").pickList({
+					availableList_selector : "#leftList",
+					pickedList_selector : "#rightList",
+					item_selector : "li.simpleItem",
+					addButton_selector : "#addButton",
+					removeButton_selector : "#delButton",
+					selectedItemClassName : "selectedItem2",
+					hoverItemClassName : "hoverItem2",
+					containsItem : function() {
+						return false;
+					},
+					beforeAdd : ba,
+					hoverOverPickedItem : hoverOver
+				});
+			});
+			
+			var ba = function(){				
+				var selectedAvailableItems = pl2.getSelectedAvailableItems();
+				if(selectedAvailableItems.size()<=0) {
+					alert("Please first select item!");
+					return false;
+				} else {
+					var msg = "";
+					selectedAvailableItems.each(function(i){
+						msg += ((i+1) + "\t" + $(this).find(".nameCol").text() + "\n");
+					});
+					
+					alert("Selected: \n\n" + msg);
+					return true;
+				}
+			};
+			
+			var hoverOver = function() {
+				var hoverItem = pl2.getPickedItems().filter("." + pl2.settings.hoverItemClassName);
+				var countryName = "" + hoverItem.find(".nameCol").text();
+				if(countryName.length>0) {
+					var firstLetter = countryName.substring(0,1);
+					if(firstLetter == "C") {
+						alert("The country name starts with 'C'");
+					} 
+				}
+			};
+        </script>
+        
+        <style type="text/css">
+			h4 {
+				margin: 5px;
+			}
+		
+			pre {
+				background-color: #eee;
+				border: 1px solid #ccc;
+				padding: 10px;
+				margin: 0 10px;
+				width: 80%;
+			}
+			
+			.contentDiv {
+				margin-left: 40px;
+				width: 90%;
+				font-family: Verdana, Geneva, sans-serif;
+				font-size: 13px;
+			}
+
+			.clearFloat {
+				clear: left;
+			}
+		
+			.sampleDiv ul {
+				text-decoration: none;
+				list-style: none;
+				padding: 0;
+			}
+			
+        	.hoverItem {
+				background: #6CC;
+			}
+			
+			.selectedItem {
+				background: #FC3;
+			}
+			
+			/* CSS for #sample_1*/
+			#sample_1 {
+				float: left;
+			}
+			
+			#sample_1 ul {
+				width: 280px;
+				height: 120px;
+				overflow: auto;
+				border: 1px solid #609;
+			}
+			
+			#sample_1_code {
+				margin-left: 300px;
+			}
+			
+			#sample_1 span {
+				margin: 0 10px;
+			}
+					
+			/* CSS for #sample_2*/	
+			#sample_2 {
+				/*width: 500px;
+				height: 250px;*/
+			}
+			
+			#sample_2 ul {
+				width: 200px;
+				height: 150px;
+				overflow: auto;
+				border: 1px solid #708090;
+				padding: 2px;
+				background: #E6E6FA;
+				float: left;
+				margin-top: 0;
+			}
+			
+			#sample_2 #buttonGroup {
+				float: left;
+				margin: 50px 10px;			
+			}
+			
+			#addButton, #delButton {
+				width: 60px;
+			}
+			
+			#sample_2 .idCol {
+				display: none;
+			}
+			
+			.simpleItem {
+				background: #D1EEEE;
+				border-top: 1px solid #FFF;
+				border-left: 1px solid #FFF;
+				border-right: 1px solid #99C;
+				border-bottom: 1px solid #99C;
+			}
+			
+			.hoverItem2 {
+				background: #A2B5CD;
+			}	
+			
+			.selectedItem2 {
+				background: #DAA520;
+				color: #FFFFFF;
+			}
+			
+			#optionsTable {
+				margin: 10px;
+				font-family: Verdana, Geneva, sans-serif;
+				font-size: 12px;
+				border: 1px solid #999;
+				border-collapse: collapse;
+				width: 800px;
+			}
+			
+			#optionsTable td, #optionsTable th{
+				font-family: Verdana, Geneva, sans-serif;
+				font-size: 12px;
+				border: 1px solid #999;
+				padding: 5px;
+			}
+			
+			#optionsTable th {
+				background: #669;
+				color: #FFF;
+			}
+			
+			/* CSS for #sample_3*/
+        </style>
+    </head>
+    
+    <body>
+   	<h2>GengV's PickList - Demo</h2>
+           
+    <ul>
+    	<li>Requires <a href="http://jquery.com/">jQuery</a> (version 1.3 or above).</li>
+        <li>Rich contents in each ListItem. </li>
+    	<li>Optional settings for component selectors, callback functions, CSS styles and so on. </li>
+        <li>CTRL, SHIFT keys supported.</li>
+    	<li>Last updated on 04/20/2010</li>
+    </ul>
+    <p>
+   	<h3>1. The Simplest Sample</h3>
+    <div id="sample_1" class="sampleDiv">
+    	<ul id="availableList">
+        	<li>
+            	<span class="idCol">1</span><span>Dog</span>
+            </li>
+            <li>
+            	<span class="idCol">2</span><span>Cat</span>
+            </li>
+            <li>
+            	<span class="idCol">3</span><span>Mouse</span>
+            </li>
+            <li>
+            	<span class="idCol">4</span><span>Goat</span>
+            </li>
+            <li>
+            	<span class="idCol">5</span><span>Horse</span>
+            </li>
+            <li>
+            	<span class="idCol">6</span><span>Donkey</span>
+            </li>
+            <li>
+            	<span class="idCol">7</span><span>Caw</span>
+            </li>
+        </ul>
+        <input id="btnAdd" type="button" value="+ Add" />
+        <input id="btnRemove" type="button" value="- Remove" />
+        <ul id="pickedList">
+        </ul>      
+    </div>
+    <div id="sample_1_code">
+	  <h4>Introduction</h4>
+        	<pre>
+<strong>pickList()</strong> function returns a PickList object. 
+If pickList() invoked without any options, the default settings will be used.
+
+Default settings:
+
+1. availableList_selector : "#availableList",
+2. pickedList_selector : "#pickedList",
+3. item_selector : "li",
+4. addButton_selector : "#btnAdd",
+5. removeButton_selector : "#btnRemove",
+6. selectedItemClassName : "selectedItem",
+7. hoverItemClassName : "hoverItem"            </pre>
+	  <h4>Code</h4>
+		<pre>
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery-1.3.2.min.js&quot; /&gt;<br />&lt;script type=&quot;text/javascript&quot; src=&quot;jquery.pickList-0.1.7.js&quot; /&gt;<br />&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function(){<br />        $(&quot;#sample_1&quot;).pickList();
+    });
+&lt;/script&gt;
+
+&lt;div id=&quot;sample_1&quot; class=&quot;sampleDiv&quot;&gt;<br />    &lt;ul id=&quot;availableList&quot;&gt;    
+         &lt;li&gt;<br />            	&lt;span class=&quot;idCol&quot;&gt;1&lt;/span&gt;&lt;span&gt;Dog&lt;/span&gt;<br />         &lt;/li&gt;<br />         &lt;li&gt;<br />            	&lt;span class=&quot;idCol&quot;&gt;2&lt;/span&gt;&lt;span&gt;Cat&lt;/span&gt;<br />         &lt;/li&gt;
+<br />         ...
+<br />         &lt;li&gt;<br />            	&lt;span class=&quot;idCol&quot;&gt;7&lt;/span&gt;&lt;span&gt;Caw&lt;/span&gt;<br />         &lt;/li&gt;<br />    &lt;/ul&gt;<br />    
+    &lt;input id=&quot;btnAdd&quot; type=&quot;button&quot; value=&quot;+ Add&quot; /&gt;<br />    &lt;input id=&quot;btnRemove&quot; type=&quot;button&quot; value=&quot;- Remove&quot; /&gt;<br />        
+    &lt;ul id=&quot;pickedList&quot;&gt;<br />    &lt;/ul&gt;      <br />&lt;/div&gt;</pre>
+    </div>
+    <div class="clearFloat"></div>
+    <h3>2. Rich Content Sample</h3>
+    <div id="sample_2" class="sampleDiv">
+    	<ul id="leftList">
+        	<li class="simpleItem">
+            	<span class="idCol">1</span>
+                <span class="flagCol"><img src="images/f_china.gif" height="15"/></span>
+                <span class="nameCol">China</span>
+            </li>
+            <li class="simpleItem">
+            	<span class="idCol">2</span>
+                <span class="flagCol"><img src="images/f_america.gif" height="15"/></span>
+                <span class="nameCol">United States</span>
+            </li>
+            <li class="simpleItem">
+            	<span class="idCol">3</span>
+                <span class="flagCol"><img src="images/f_britain.gif" height="15"/></span>
+                <span class="nameCol">Britain</span>
+            </li>
+            <li class="simpleItem">
+            	<span class="idCol">4</span>
+                <span class="flagCol"><img src="images/f_germany.gif" height="15"/></span>
+                <span class="nameCol">Germany</span>
+            </li>
+            <li class="simpleItem">
+            	<span class="idCol">5</span>
+                <span class="flagCol"><img src="images/f_sweden.gif" height="15"/></span>
+                <span class="nameCol">Sweden</span>
+            </li>
+            <li class="simpleItem">
+            	<span class="idCol">6</span>
+                <span class="flagCol"><img src="images/f_italy.gif" height="15"/></span>
+                <span class="nameCol">Italy</span>
+            </li>
+            <li class="simpleItem">
+            	<span class="idCol">7</span>
+                <span class="flagCol"><img src="images/f_japan.gif" height="15"/></span>
+                <span class="nameCol">Japan</span>
+            </li>
+            <li class="simpleItem">
+            	<span class="idCol">8</span>
+                <span class="flagCol"><img src="images/f_canada.gif" height="15"/></span>
+                <span class="nameCol">Canada</span>
+            </li>
+            <li class="simpleItem">
+            	<span class="idCol">9</span>
+                <span class="flagCol"><img src="images/f_saudiarabia.gif" height="15"/></span>
+                <span class="nameCol">Saudi Arabia</span>
+            </li>
+            <li class="simpleItem">
+            	<span class="idCol">9</span>
+                <span class="flagCol"><img src="images/f_france.gif" height="15"/></span>
+                <span class="nameCol">France</span>
+            </li>
+        </ul>
+        <div id="buttonGroup">
+            <div><input id="addButton" type="button" value="Add &gt;" /></div>
+           	<div><input id="delButton" type="button" value="&lt; Del" /></div>
+        </div>
+        <ul id="rightList">
+        </ul>
+    </div>
+    <div class="clearFloat"></div>
+    <div id="sample_2_code">
+   	  <h4>Introduction</h4>
+        <pre>
+With the options, customized CSS styles, callback functions, component selectors are supported.
+
+For example,
+
+1. The CSS classnames for selected item, hover item;
+2. The callback functions triggered before/after item moving or hovering.           
+    </pre>
+    <h4>Code</h4>
+    <pre>$(function(){<br />	$(&quot;#sample_1&quot;).pickList();<br />				<br />	pl2 = $(&quot;#sample_2&quot;).pickList({<br />		availableList_selector : &quot;#leftList&quot;,<br />		pickedList_selector : &quot;#rightList&quot;,<br />		item_selector : &quot;li.simpleItem&quot;,<br />		addButton_selector : &quot;#addButton&quot;,<br />		removeButton_selector : &quot;#delButton&quot;,<br />		selectedItemClassName : &quot;selectedItem2&quot;,<br />		hoverItemClassName : &quot;hoverItem2&quot;,<br />		containsItem : function() {<br />			return false;<br />		},<br />		beforeAdd : ba,<br />		hoverOverPickedItem : hoverOver<br />	});<br />});<br />			<br />var ba = function(){				<br />	var selectedAvailableItems = pl2.getSelectedAvailableItems();<br />	if(selectedAvailableItems.size()&lt;=0) {<br />		alert(&quot;Please first select item!&quot;);<br />		return false;<br />	} else {<br />		var msg = &quot;&quot;;<br />		selectedAvailableItems.each(function(i){<br />			msg += ((i+1) + &quot;\t&quot; + $(this).find(&quot;.nameCol&quot;).text() + &quot;\n&quot;);<br />		});<br />					<br />		alert(&quot;Selected: \n\n&quot; + msg);<br />		return true;<br />	}<br />};<br />			<br />var hoverOver = function() {<br />	var hoverItem = pl2.getPickedItems().filter(&quot;.&quot; + pl2.settings.hoverItemClassName);<br />	var countryName = &quot;&quot; + hoverItem.find(&quot;.nameCol&quot;).text();<br />	if(countryName.length&gt;0) {<br />		var firstLetter = countryName.substring(0,1);<br />		if(firstLetter == &quot;C&quot;) {<br />			alert(&quot;The country name starts with 'C'&quot;);<br />		} <br />	}<br />};</pre>
+    </div>
+    <div id="apiContent">
+   	  <h3>3. Documentation</h3>
+        <h4>pickList(options, root)</h4>
+        <div class="contentDiv">
+          pickList() accepts two parameters. 
+          <ul>
+          	<li>options: 
+            	<table id="optionsTable">
+                  <tr>
+                    <th scope="col">Option Name</th>
+                    <th scope="col">Required</th>
+                    <th scope="col">Default</th>
+                    <th scope="col">Description</th>
+                  </tr>
+                  <tr>
+                    <td>root_selector</td>
+                    <td>No</td>
+                    <td>body</td>
+                    <td>The selector under which the pickList() search the sub-components.</td>
+                  </tr>
+                  <tr>
+                    <td>availableList_selector</td>
+                    <td>No</td>
+                    <td>#availableList</td>
+                    <td>The selector refer to the available itemlist.</td>
+                  </tr>
+                  <tr>
+                    <td>pickedList_selector</td>
+                    <td>No</td>
+                    <td>#pickedList</td>
+                    <td>The selector refer to the picked item list.</td>
+                  </tr>
+                  <tr>
+                    <td>item_selector</td>
+                    <td>No</td>
+                    <td>li</td>
+                    <td>The selector with which the pickList search the items.</td>
+                  </tr>
+                  <tr>
+                    <td>addButton_selector</td>
+                    <td>No</td>
+                    <td>#btnAdd</td>
+                    <td>The button selector which triggers the items adding from availableList.</td>
+                  </tr>
+                  <tr>
+                    <td>removeButton_selector</td>
+                    <td>No</td>
+                    <td>#btnRemove</td>
+                    <td>The button selector which triggers the items adding from pickedList.</td>
+                  </tr>
+                  <tr>
+                    <td>selectedItemClassName</td>
+                    <td>No</td>
+                    <td>selectedItem</td>
+                    <td>The CSS style name for selected item.</td>
+                  </tr>
+                  <tr>
+                    <td>hoverItemClassName</td>
+                    <td>No</td>
+                    <td>hoverItem</td>
+                    <td>The CSS style name for hovered item.</td>
+                  </tr>
+                  <tr>
+                    <td>beforeAdd</td>
+                    <td>No</td>
+                    <td>null</td>
+                    <td>The callback is invoked before the selected items moved from availableList to pickedList. If return false, no item will be moved.</td>
+                  </tr>
+                  <tr>
+                    <td>afterAdd</td>
+                    <td>No</td>
+                    <td>null</td>
+                    <td>The callback is invoked after the selected items moved from availableList to pickedList.</td>
+                  </tr>
+                  <tr>
+                    <td>beforeRemove</td>
+                    <td>No</td>
+                    <td>null</td>
+                    <td>The callback is invoked before the selected items moved from pickedList to availableList. If return false, no item will be moved.</td>
+                  </tr>
+                  <tr>
+                    <td>afterRemove</td>
+                    <td>No</td>
+                    <td>null</td>
+                    <td>The callback is invoked after the selected items moved from pickedList to availableList.</td>
+                  </tr>
+                  <tr>
+                    <td>hoverOverAvailableItem</td>
+                    <td>No</td>
+                    <td>null</td>
+                    <td>The callback invoked when hovering over item in availableList.</td>
+                  </tr>
+                  <tr>
+                    <td>hoverOutAvailableItem</td>
+                    <td>No</td>
+                    <td>null</td>
+                    <td>The callback invoked when hovering out item in availableList.</td>
+                  </tr>
+                  <tr>
+                    <td>hoverOverPickedItem</td>
+                    <td>No</td>
+                    <td>null</td>
+                    <td>The callback invoked when hovering over item in pickedList.</td>
+                  </tr>
+                  <tr>
+                    <td>hoverOutPickedItem</td>
+                    <td>No</td>
+                    <td>null</td>
+                    <td>The callback invoked when hovering out item in pickedList.</td>
+                  </tr>
+                  <tr>
+                    <td>containsItem</td>
+                    <td>No</td>
+                    <td>function()</td>
+                    <td>The function to identify if duplicated item in the target list before moving item. The default function will compare the texts of components with the class 'idCol'.</td>
+                  </tr>
+                </table>
+          	</li>
+            <li>root: 
+            	<div>jQuery object. The optional parameter object within which the pickList tries to find the sub-components selectors.</div>
+            </li>
+          </ul>
+        </div>
+        
+        <h4>initAvailableItems()</h4>
+        <div class="contentDiv">
+          Initiate the items in available list and bind the event callback for them.
+        </div>
+        
+        <h4>initPickedItems()</h4>
+        <div class="contentDiv">
+          Initiate the items in picked list and bind the event callback for them.
+        </div>
+        
+        <h4>addButton_click()</h4>
+        <div class="contentDiv">
+          Click the addButton. The each selected item in availableList will be compared with the items in pickedList, using containsItem(). If containsItem() return true, the same item in pickedList will be imposed with 'selectedItemClassName' CSS style. Otherwise, the item will be moved from availableList to pickedList.
+        </div>
+        
+        <h4>removeButton_click()</h4>
+        <div class="contentDiv">
+          Click the removeButton. The each selected item in pickedList will be compared with the items in availableList, using containsItem(). If containsItem() return true, the same item in availableList will be imposed with 'selectedItemClassName' CSS style. Otherwise, the item will be moved from pickedList to availableList.
+        </div>
+        
+        <h4>clearAvailableList()</h4>
+        <div class="contentDiv">
+          Clear the items in availableList.
+        </div>
+        
+        <h4>clearPickedList()</h4>
+        <div class="contentDiv">
+          Clear the items in pickedList.
+        </div>
+        
+        <h4>insertAvailableItems(html)</h4>
+        <div class="contentDiv">
+          Append the items html to the availableList DOM.
+        </div>
+        
+        <h4>insertPickedItems(html)</h4>
+        <div class="contentDiv">
+          Append the items html to the pickedList DOM.
+        </div>
+        
+        <h4>getAvailableItems()</h4>
+        <div class="contentDiv">
+          Get the items in availableList. Return jQuery objects.
+        </div>
+        
+        <h4>getPickedItems()</h4>
+        <div class="contentDiv">
+          Get the items in pickedList. Return jQuery objects.
+        </div>
+        
+        <h4>getSelectedAvailableItems()</h4>
+        <div class="contentDiv">
+          Get the selected items in availableList. Return jQuery objects.
+        </div>
+        
+        <h4>getSelectedPickedItems()</h4>
+        <div class="contentDiv">
+          Get the selected items in pickedList. Return jQuery objects.
+        </div>
+        
+        <h4>getLastClickedAvailableItem()</h4>
+        <div class="contentDiv">
+          Get the last selected item in availableList. Return jQuery object.
+        </div>
+        
+        <h4>getLastClickedPickedItem()</h4>
+        <div class="contentDiv">
+          Get the last selected items in pickedList. Return jQuery object.
+        </div>
+    </div>
+	</p>
+    </body>
+</html>

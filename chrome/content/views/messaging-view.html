@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" 
+  href="chrome://camungo/skin/bootstrap/css/bootstrap-mod.css"/>
+  <link rel="stylesheet" type="text/css" media="screen" 
+  href="chrome://camungo/skin/bootstrap/css/bootstrap-responsive.min.css"/>
+  <link rel="stylesheet" type="text/css" media="screen" 
+  href="chrome://camungo/skin/bootstrap/css/font-awesome.css"/>
+
+  <link rel="stylesheet" type="text/css" href="chrome://camungo/skin/jqmetro/jquery.metro.css" />
+  <link rel="stylesheet" type="text/css" href="chrome://camungo/skin/dtable/css/dtable.ext.css" />
+  <link rel="stylesheet" type="text/css" href="chrome://camungo/skin/app.css" />
+</head>
+<body theme="light" xxaccent="brown">
+
+    <div class="metro-pivot">
+
+    <div id="metrics" class="pivot-item"><h3></h3>
+      <div id="metrics-tpl" class="pivot-content"></div>
+    </div>
+    <div id="queues" class="pivot-item" ><h3></h3>
+      <div id="queues-tpl" class="pivot-content"></div>
+    </div>
+    <div id="notify" class="pivot-item"><h3></h3>
+      <div id="notify-tpl" class="pivot-content"></div>
+    </div>
+
+  </div>
+
+  <div id="modal-popup" class="modal hide fade">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal" >&times;</a>
+        <h4></h4>
+      </div>
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="modal-body">&nbsp;</div>
+          <div class="modal-footer">&nbsp;</div>
+        </div>
+      </div>
+  </div>
+
+  <div id="table-row-desc" class="modal hide fade">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal" >&times;</a>
+        <h3>Properties</h3>
+      </div>
+      <div class="row-fluid">
+        <div class="span8">
+          <div class="modal-body">&nbsp;</div>
+        </div>
+      </div>
+  </div>
+
+  <div id="busy-wait" class="modal hide fade" style="left: 42% !important;">
+    <img src="chrome://camungo/skin/images/black-loading.gif"/>
+  </div>
+
+  <script type="text/javascript" src="chrome://camungo/content/tpcl/underscore-min.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/tpcl/mustache.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/tpcl/jquery.min.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/tpcl/jquery.glob.min.js"></script>
+  <script type="text/javascript" src="chrome://camungo/locale/jquery.glob.en-US.js"></script>
+  <script type="text/javascript" src="chrome://camungo/skin/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="chrome://camungo/skin/dtable/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="chrome://camungo/skin/dtable/dtable.js"></script>
+  <script type="text/javascript" src="chrome://camungo/skin/jqmetro/jquery.metro.mod.js"></script>
+
+  <script type="text/javascript" src="chrome://camungo/content/tpcl/crypto-min.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/tpcl/crypto-sha256-hmac.js"></script>
+<script type="text/javascript" src="chrome://camungo/content/tpcl/crypto-sha1-hmac-pbkdf2-blockmodes-aes.js"></script>
+
+  <script type="text/javascript" src="chrome://camungo/content/tpcl/cloudapi-browser-min.js"></script>
+
+  <script type="text/javascript" src="chrome://camungo/content/tpcl/io.js" ></script>
+
+
+  <script type="text/javascript" src="chrome://camungo/locale/app.l10n.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/ute.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/xul.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/prefs.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/widget.js"></script>
+
+  <script type="text/javascript" src="chrome://camungo/content/core/dbs.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/vendor.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/page.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/pivotitem.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/form.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/formcontainer.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/core/modal.js"></script>
+
+  <script type="text/javascript" src="chrome://camungo/content/views/messaging-view.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/views/pushsvcs.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/views/queues.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/views/metrics.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/dlgs/msgq.js"></script>
+  <script type="text/javascript" src="chrome://camungo/content/dlgs/pubsub.js"></script>
+
+  <script type="text/javascript">
+    jQuery(function(){
+      new window.ComZotoh.Camungo.MessagingView().render();
+    });
+  </script>
+
+
+</body>

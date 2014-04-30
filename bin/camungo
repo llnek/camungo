@@ -1,0 +1,7 @@
+#!/bin/sh
+PWD=`pwd`
+cd ../lib
+chmod +x xul*
+chmod +x *.sh
+./xulrunner application.ini
+cd $PWD

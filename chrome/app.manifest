@@ -1,0 +1,7 @@
+content camungo file:content/
+
+skin    camungo     classic/1.0     file:skin/classic/
+
+locale  camungo     en-US       file:locale/en-US/
+
+

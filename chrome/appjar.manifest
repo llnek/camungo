@@ -1,0 +1,7 @@
+content camungo jar:camungo.jar!/content/
+
+skin    camungo     classic/1.0     jar:camungo.jar!/skin/classic/
+
+locale  camungo     en-US       jar:camungo.jar!/locale/en-US/
+
+

@@ -1,0 +1,2 @@
+manifest components/binary.manifest
+manifest chrome/app.manifest

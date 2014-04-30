@@ -1,0 +1,195 @@
+<project name="camungo" basedir="." default="release-linux" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+    <property name="PID"     value="${ant.project.name}"/>
+    <property name="PID-DISTRO"     value="${PID}-distro"/>
+    <property name="DEBUG"     value="true"/>
+    <property name="XULAPP-ID"     value="Camungo.app"/>
+	  <property name="revision" value="1.0.0" />
+
+	<include file="${basedir}/../common.xml"/>
+
+  <target name="compile-js" depends="">
+        <exec executable="coffee">
+            <arg value="-b"/><arg value="-o"/><arg value="${build.dir}/classes/core"/>
+            <arg value="-c"/><arg value="${src.dir}/content/core"/>
+          </exec>
+        <exec executable="coffee">
+            <arg value="-b"/><arg value="-o"/><arg value="${build.dir}/classes/dlgs"/>
+            <arg value="-c"/><arg value="${src.dir}/content/dlgs"/>
+        </exec>
+        <exec executable="coffee">
+            <arg value="-b"/><arg value="-o"/><arg value="${build.dir}/classes/views"/>
+            <arg value="-c"/><arg value="${src.dir}/content/views"/>
+        </exec>
+        <antcall target="filter-xxx"/>
+        <antcall target="concat-xxx-js"/>
+        <antcall target="gen-htmls"/>
+    </target>
+
+    <target name="filter-xxx">
+      <replace file="${build.dir}/classes/dlgs/about.js"
+        token="{{VERSION_ID}}" value="${revision}"/>
+      <copy todir="${build.dir}" file="${basedir}/application.ini"/>
+      <replace file="${build.dir}/application.ini"
+        token="{{VERSION_ID}}" value="${revision}"/>
+      <replace file="${build.dir}/application.ini"
+        token="{{BUILD_ID}}" value="${build.time}.${build.number}"/>
+    </target>
+
+    <target name="gen-htmls" depends="">
+      <exec executable="node" dir="${basedir}/scripts" failonerror="true">
+        <env key="NODE_PATH" value="${build.dir}:${ivy.localrepo.dir}/node_modules"/>
+        <arg value="genhtml.js"/>
+        <arg value="view-tpl.html"/>
+        <arg value="${build.dir}"/>
+      </exec>
+      <copy todir="${build.dir}" file="${src.dir}/content/views/app.html"></copy>
+    </target>
+
+    <target name="concat-xxx-js" depends="">
+        <antcall target="concat-core-js"/>
+        <antcall target="concat-storageview-js"/>
+        <antcall target="concat-settingsview-js"/>
+        <antcall target="concat-networksview-js"/>
+        <antcall target="concat-messagingview-js"/>
+        <antcall target="concat-machinesview-js"/>
+        <antcall target="concat-databaseview-js"/>
+        <antcall target="concat-vpcsview-js"/>
+        <antcall target="concat-storageview-js"/>
+        <antcall target="concat-settingsview-js"/>
+        <antcall target="concat-networksview-js"/>
+        <antcall target="concat-messagingview-js"/>
+        <antcall target="concat-machinesview-js"/>
+        <antcall target="concat-databaseview-js"/>
+        <copy file="${build.dir}/classes/dlgs/about.js" todir="${build.dir}"></copy>
+        <copy file="${build.dir}/classes/core/mainnav.js" todir="${build.dir}"></copy>
+        <copy file="${build.dir}/classes/core/login.js" todir="${build.dir}"></copy>
+        <copy file="${build.dir}/classes/core/browser.js" todir="${build.dir}"></copy>
+    </target>
+
+    <target name="concat-core-js" depends="">
+      <concat dest="${build.dir}/camungo-core.js" append="true">
+          <fileset file="${src.dir}/locale/en-US/app.l10n.js"/>
+          <fileset file="${build.dir}/classes/core/ute.js"/>
+          <fileset file="${build.dir}/classes/core/xul.js"/>
+          <fileset file="${build.dir}/classes/core/prefs.js"/>
+          <fileset file="${build.dir}/classes/core/widget.js"/>
+          <fileset file="${build.dir}/classes/core/dbs.js"/>
+          <fileset file="${build.dir}/classes/core/vendor.js"/>
+          <fileset file="${build.dir}/classes/core/page.js"/>
+          <fileset file="${build.dir}/classes/core/form.js"/>
+          <fileset file="${build.dir}/classes/core/formcontainer.js"/>
+          <fileset file="${build.dir}/classes/core/modal.js"/>
+          <fileset file="${build.dir}/classes/core/pivotitem.js"/>
+        </concat>
+    </target>
+
+    <target name="concat-vpcsview-js" depends="">
+      <concat dest="${build.dir}/vpcs.js" append="true">
+          <fileset file="${build.dir}/classes/views/vpcs-view.js"/>
+          <fileset file="${build.dir}/classes/views/vlans.js"/>
+          <fileset file="${build.dir}/classes/views/dhcps.js"/>
+          <fileset file="${build.dir}/classes/views/conns.js"/>
+          <fileset file="${build.dir}/classes/views/gates.js"/>
+          <fileset file="${build.dir}/classes/views/subnets.js"/>
+          <fileset file="${build.dir}/classes/dlgs/subnets.js"/>
+          <fileset file="${build.dir}/classes/dlgs/vlans.js"/>
+          <fileset file="${build.dir}/classes/dlgs/dhcps.js"/>
+          <fileset file="${build.dir}/classes/dlgs/conns.js"/>
+          <fileset file="${build.dir}/classes/dlgs/gates.js"/>
+          <fileset file="${build.dir}/classes/dlgs/vpncstyles.js"/>
+        </concat>
+    </target>
+    <target name="concat-storageview-js" depends="">
+      <concat dest="${build.dir}/storage.js" append="true">
+          <fileset file="${build.dir}/classes/views/storage-view.js"/>
+          <fileset file="${build.dir}/classes/views/volumes.js"/>
+          <fileset file="${build.dir}/classes/views/snapshots.js"/>
+          <fileset file="${build.dir}/classes/views/cfiles.js"/>
+          <fileset file="${build.dir}/classes/dlgs/snaps.js"/>
+          <fileset file="${build.dir}/classes/dlgs/vols.js"/>
+          <fileset file="${build.dir}/classes/dlgs/cfiles.js"/>
+        </concat>
+    </target>
+    <target name="concat-settingsview-js" depends="">
+      <concat dest="${build.dir}/settings.js" append="true">
+          <fileset file="${build.dir}/classes/views/settings-view.js"/>
+          <fileset file="${build.dir}/classes/views/accts.js"/>
+          <fileset file="${build.dir}/classes/views/sshcfg.js"/>
+          <fileset file="${build.dir}/classes/views/genprefs.js"/>
+          <fileset file="${build.dir}/classes/views/jsrun.js"/>
+          <fileset file="${build.dir}/classes/dlgs/accts.js"/>
+        </concat>
+    </target>
+    <target name="concat-networksview-js" depends="">
+      <concat dest="${build.dir}/networks.js" append="true">
+          <fileset file="${build.dir}/classes/views/networks-view.js"/>
+          <fileset file="${build.dir}/classes/views/sshkeys.js"/>
+          <fileset file="${build.dir}/classes/views/fwalls.js"/>
+          <fileset file="${build.dir}/classes/views/ipaddrs.js"/>
+          <fileset file="${build.dir}/classes/dlgs/fwalls.js"/>
+          <fileset file="${build.dir}/classes/dlgs/keys.js"/>
+          <fileset file="${build.dir}/classes/dlgs/ipaddrs.js"/>
+        </concat>
+    </target>
+    <target name="concat-messagingview-js" depends="">
+      <concat dest="${build.dir}/messaging.js" append="true">
+          <fileset file="${build.dir}/classes/views/messaging-view.js"/>
+          <fileset file="${build.dir}/classes/views/pushsvcs.js"/>
+          <fileset file="${build.dir}/classes/views/queues.js"/>
+          <fileset file="${build.dir}/classes/views/metrics.js"/>
+          <fileset file="${build.dir}/classes/dlgs/msgq.js"/>
+          <fileset file="${build.dir}/classes/dlgs/pubsub.js"/>
+        </concat>
+    </target>
+    <target name="concat-machinesview-js" depends="">
+      <concat dest="${build.dir}/machines.js" append="true">
+          <fileset file="${build.dir}/classes/views/machines-view.js"/>
+          <fileset file="${build.dir}/classes/views/vms.js"/>
+          <fileset file="${build.dir}/classes/views/images.js"/>
+          <fileset file="${build.dir}/classes/views/lbs.js"/>
+          <fileset file="${build.dir}/classes/views/scaling.js"/>
+          <fileset file="${build.dir}/classes/views/lcfg.js"/>
+          <fileset file="${build.dir}/classes/dlgs/images.js"/>
+          <fileset file="${build.dir}/classes/dlgs/vms.js"/>
+          <fileset file="${build.dir}/classes/dlgs/lbs.js"/>
+          <fileset file="${build.dir}/classes/dlgs/scaling.js"/>
+          <fileset file="${build.dir}/classes/dlgs/lcfg.js"/>
+        </concat>
+    </target>
+    <target name="concat-databaseview-js" depends="">
+      <concat dest="${build.dir}/databases.js" append="true">
+          <fileset file="${build.dir}/classes/views/databases-view.js"/>
+          <fileset file="${build.dir}/classes/views/nosql.js"/>
+          <fileset file="${build.dir}/classes/views/rdbms.js"/>
+          <fileset file="${build.dir}/classes/dlgs/rdbms.js"/>
+          <fileset file="${build.dir}/classes/dlgs/nosql.js"/>
+        </concat>
+    </target>
+
+    <target name="pre-test" depends="">
+    </target>
+
+    <property name="xulrunner.linux" value="xulrunner-x86_64-11.0.0.tar.gz"/>
+    <property name="xulrunner.win" value="xulrunner-i386-11.0.0.zip"/>
+    <property name="xulrunner.osx" value="xulrunner-osx-7.0.1.tar.gz"/>
+    <property name="chrome.as.jar" value="true"/>
+
+    <target name="finz-xulapp-linux"></target>
+    <target name="finz-xulapp-osx"></target>
+    <target name="finz-xulapp-win">
+      <mkdir dir="${pack.dir}/lib/putty"/>
+      <copy todir="${pack.dir}/lib/putty"><fileset dir="${basedir}/putty"/></copy>
+    </target>
+
+    <target name="config-osx-xulapp">
+      <replaceregexp file="${pack.dir}/Info.plist" match="\{\{VERSION\}\}" flags="g" replace="${revision}"/>
+      <replaceregexp file="${pack.dir}/Info.plist" match="\{\{SIGN\}\}" flags="g" replace="CCCC"/>
+      <replaceregexp file="${pack.dir}/PkgInfo" match="\{\{SIGN\}\}" flags="g" replace="CCCC"/>
+    </target>
+
+	  <target name="release-linux" depends="common.pub-xulapp-linux"/>
+	  <target name="release-win" depends="common.pub-xulapp-win"/>
+	  <target name="release-osx" depends="common.pub-xulapp-osx"/>
+
+</project>
